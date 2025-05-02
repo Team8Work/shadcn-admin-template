@@ -1,0 +1,153 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+AI Editor Rules for Cursor — React + Vite + Supabase (Data API) SaaS Template
+
+This project uses a modern SaaS stack with Vite, React, Tailwind CSS, Supabase (Data API), and a modular monolith architecture. These rules guide AI-assisted code generation to ensure consistency, performance, and security.
+
+General Rules
+
+Use TypeScript strictly. No any types unless unavoidable and explained.
+
+Prefer functional programming (e.g., map, filter, reduce) for utility code.
+
+Use Tailwind CSS exclusively for styling. No inline styles or CSS modules.
+
+For dynamic classes, use clsx or class-variance-authority (CVA).
+
+Always prefer async/await for asynchronous code.
+
+Use folder-based architecture with clear module boundaries.
+
+React Rules
+
+Use React Functional Components only.
+
+State Management:
+
+Use Zustand for global/shared state.
+
+Use local useState for isolated UI logic.
+
+Forms:
+
+Use React Hook Form with Zod schemas for form validation.
+
+Keep form logic separate from UI via hooks and utilities.
+
+Folder Structure:
+
+Components: /components/ui/, /components/forms/, etc.
+
+Hooks: /hooks/
+
+Types: /types/
+
+Utilities: /lib/
+
+Vite Rules
+
+In vite.config.ts, set:
+
+ts
+Copy
+Edit
+server: {
+  host: true, // Allow local subdomains like acme.myapp.local
+}
+Use aliases like @/components in vite.config.ts and tsconfig.json.
+
+Support local HTTPS via mkcert if needed for secure cookies.
+
+Minimal plugins: prefer fast dev startup and small bundle size.
+
+Supabase Rules (Data API Focused)
+
+Use the Supabase Data API:
+
+Queries: supabase.from('table').select().eq()
+
+Mutations: insert(), update(), delete() — always explicitly typed.
+
+Always use generated TypeScript types from Supabase (types/supabase.ts).
+
+Enforce Row-Level Security (RLS) on all tenant-scoped tables.
+
+All queries must be scoped to organization_id or tenant_id from subdomain.
+
+Never use select('*'). Always specify fields.
+
+Avoid client-side joins — use views or custom filtered queries instead.
+
+Use TanStack Query for all data fetching and caching.
+
+Use @supabase/auth-helpers-react for auth and session management.
+
+Multi-Tenancy (Subdomain-Based)
+
+Load tenant (organization) info from the subdomain:
+
+ts
+Copy
+Edit
+const [tenant] = window.location.hostname.split('.');
+Store current tenant in a Zustand store or global React context.
+
+Use this tenant ID to scope all Supabase queries.
+
+All tables must include a tenant_id or organization_id column.
+
+Supabase RLS policies should match the session user's tenant.
+
+Code Architecture
+
+Extract reusable logic into /hooks/ (e.g., useTenant.ts, useProjectList.ts).
+
+Use /lib/ for pure utility functions (e.g., date formatting, API helpers).
+
+Organize UI components in /components/, separating layout and logic.
+
+Avoid prop drilling — prefer hooks, context, or Zustand.
+
+Group features into domain folders (/features/projects, /features/tasks, etc.).
+
+Supabase API Wrapper Example
+
+Create typed API accessors in /lib/supabaseClient.ts:
+
+import { supabase } from '@/lib/supabase';
+import { Database } from '@/types/supabase';
+
+type Project = Database['public']['Tables']['projects']['Row'];
+
+export async function getProjectsByTenant(tenantId: string): Promise<Project[]> {
+  const { data, error } = await supabase
+    .from('projects')
+    .select('id, name, department_id')
+    .eq('tenant_id', tenantId);
+
+  if (error) throw error;
+  return data;
+}
+AI Prompt Examples
+
+“Create a Zustand store that holds the current tenant name extracted from subdomain and is accessible app-wide.”
+
+“Generate a React hook useProjects() that fetches projects for the current tenant using Supabase Data API and TanStack Query.”
+
+“Refactor this form to use React Hook Form and Zod schema validation. Use Tailwind CSS and match the design of other forms in /components/forms/.”
+
+“Add support for local subdomains (acme.myapp.local) in vite.config.ts using host: true.”
+
+“Write a reusable utility in /lib/parseSubdomain.ts that returns the subdomain (tenant) from the current browser hostname.”
+
+Linting & Code Style
+
+Use ESLint + Prettier with Airbnb or Next.js style rules.
+
+All files should be auto-formatted on save.
+
+
+Use consistent naming: camelCase for variables/functions, PascalCase for components.

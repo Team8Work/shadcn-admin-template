@@ -1,6 +1,7 @@
 import {
   IconBarrierBlock,
   IconBrowserCheck,
+  IconBriefcase,
   IconBug,
   IconChecklist,
   IconError404,
@@ -172,6 +173,11 @@ export const sidebarData: SidebarData = {
               icon: IconBrowserCheck,
             },
           ],
+        },
+        {
+          title: 'Work Management',
+          url: '/work-management',
+          icon: IconBriefcase,
         },
         {
           title: 'Help Center',

@@ -23,13 +23,19 @@ import { Route as authSignIn2Import } from './routes/(auth)/sign-in-2'
 import { Route as authSignInImport } from './routes/(auth)/sign-in'
 import { Route as authOtpImport } from './routes/(auth)/otp'
 import { Route as authForgotPasswordImport } from './routes/(auth)/forgot-password'
+import { Route as AuthenticatedWorkManagementRouteImport } from './routes/_authenticated/work-management/route'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings/route'
+import { Route as AuthenticatedWorkManagementIndexImport } from './routes/_authenticated/work-management/index'
 import { Route as AuthenticatedUsersIndexImport } from './routes/_authenticated/users/index'
 import { Route as AuthenticatedTasksIndexImport } from './routes/_authenticated/tasks/index'
 import { Route as AuthenticatedSettingsIndexImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedHelpCenterIndexImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedChatsIndexImport } from './routes/_authenticated/chats/index'
 import { Route as AuthenticatedAppsIndexImport } from './routes/_authenticated/apps/index'
+import { Route as AuthenticatedWorkManagementTeamsImport } from './routes/_authenticated/work-management/teams'
+import { Route as AuthenticatedWorkManagementProjectsImport } from './routes/_authenticated/work-management/projects'
+import { Route as AuthenticatedWorkManagementOrganizationsImport } from './routes/_authenticated/work-management/organizations'
+import { Route as AuthenticatedWorkManagementDepartmentsImport } from './routes/_authenticated/work-management/departments'
 import { Route as AuthenticatedSettingsNotificationsImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceImport } from './routes/_authenticated/settings/appearance'
@@ -108,6 +114,13 @@ const authForgotPasswordRoute = authForgotPasswordImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthenticatedWorkManagementRouteRoute =
+  AuthenticatedWorkManagementRouteImport.update({
+    id: '/work-management',
+    path: '/work-management',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+
 const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
   {
     id: '/settings',
@@ -115,6 +128,13 @@ const AuthenticatedSettingsRouteRoute = AuthenticatedSettingsRouteImport.update(
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any,
 )
+
+const AuthenticatedWorkManagementIndexRoute =
+  AuthenticatedWorkManagementIndexImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedWorkManagementRouteRoute,
+  } as any)
 
 const AuthenticatedUsersIndexRoute = AuthenticatedUsersIndexImport.update({
   id: '/users/',
@@ -154,6 +174,34 @@ const AuthenticatedAppsIndexRoute = AuthenticatedAppsIndexImport.update({
   path: '/apps/',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+
+const AuthenticatedWorkManagementTeamsRoute =
+  AuthenticatedWorkManagementTeamsImport.update({
+    id: '/teams',
+    path: '/teams',
+    getParentRoute: () => AuthenticatedWorkManagementRouteRoute,
+  } as any)
+
+const AuthenticatedWorkManagementProjectsRoute =
+  AuthenticatedWorkManagementProjectsImport.update({
+    id: '/projects',
+    path: '/projects',
+    getParentRoute: () => AuthenticatedWorkManagementRouteRoute,
+  } as any)
+
+const AuthenticatedWorkManagementOrganizationsRoute =
+  AuthenticatedWorkManagementOrganizationsImport.update({
+    id: '/organizations',
+    path: '/organizations',
+    getParentRoute: () => AuthenticatedWorkManagementRouteRoute,
+  } as any)
+
+const AuthenticatedWorkManagementDepartmentsRoute =
+  AuthenticatedWorkManagementDepartmentsImport.update({
+    id: '/departments',
+    path: '/departments',
+    getParentRoute: () => AuthenticatedWorkManagementRouteRoute,
+  } as any)
 
 const AuthenticatedSettingsNotificationsRoute =
   AuthenticatedSettingsNotificationsImport.update({
@@ -199,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
+    '/_authenticated/work-management': {
+      id: '/_authenticated/work-management'
+      path: '/work-management'
+      fullPath: '/work-management'
+      preLoaderRoute: typeof AuthenticatedWorkManagementRouteImport
       parentRoute: typeof AuthenticatedRouteImport
     }
     '/(auth)/forgot-password': {
@@ -306,6 +361,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsNotificationsImport
       parentRoute: typeof AuthenticatedSettingsRouteImport
     }
+    '/_authenticated/work-management/departments': {
+      id: '/_authenticated/work-management/departments'
+      path: '/departments'
+      fullPath: '/work-management/departments'
+      preLoaderRoute: typeof AuthenticatedWorkManagementDepartmentsImport
+      parentRoute: typeof AuthenticatedWorkManagementRouteImport
+    }
+    '/_authenticated/work-management/organizations': {
+      id: '/_authenticated/work-management/organizations'
+      path: '/organizations'
+      fullPath: '/work-management/organizations'
+      preLoaderRoute: typeof AuthenticatedWorkManagementOrganizationsImport
+      parentRoute: typeof AuthenticatedWorkManagementRouteImport
+    }
+    '/_authenticated/work-management/projects': {
+      id: '/_authenticated/work-management/projects'
+      path: '/projects'
+      fullPath: '/work-management/projects'
+      preLoaderRoute: typeof AuthenticatedWorkManagementProjectsImport
+      parentRoute: typeof AuthenticatedWorkManagementRouteImport
+    }
+    '/_authenticated/work-management/teams': {
+      id: '/_authenticated/work-management/teams'
+      path: '/teams'
+      fullPath: '/work-management/teams'
+      preLoaderRoute: typeof AuthenticatedWorkManagementTeamsImport
+      parentRoute: typeof AuthenticatedWorkManagementRouteImport
+    }
     '/_authenticated/apps/': {
       id: '/_authenticated/apps/'
       path: '/apps'
@@ -348,6 +431,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedUsersIndexImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/work-management/': {
+      id: '/_authenticated/work-management/'
+      path: '/'
+      fullPath: '/work-management/'
+      preLoaderRoute: typeof AuthenticatedWorkManagementIndexImport
+      parentRoute: typeof AuthenticatedWorkManagementRouteImport
+    }
   }
 }
 
@@ -376,8 +466,36 @@ const AuthenticatedSettingsRouteRouteWithChildren =
     AuthenticatedSettingsRouteRouteChildren,
   )
 
+interface AuthenticatedWorkManagementRouteRouteChildren {
+  AuthenticatedWorkManagementDepartmentsRoute: typeof AuthenticatedWorkManagementDepartmentsRoute
+  AuthenticatedWorkManagementOrganizationsRoute: typeof AuthenticatedWorkManagementOrganizationsRoute
+  AuthenticatedWorkManagementProjectsRoute: typeof AuthenticatedWorkManagementProjectsRoute
+  AuthenticatedWorkManagementTeamsRoute: typeof AuthenticatedWorkManagementTeamsRoute
+  AuthenticatedWorkManagementIndexRoute: typeof AuthenticatedWorkManagementIndexRoute
+}
+
+const AuthenticatedWorkManagementRouteRouteChildren: AuthenticatedWorkManagementRouteRouteChildren =
+  {
+    AuthenticatedWorkManagementDepartmentsRoute:
+      AuthenticatedWorkManagementDepartmentsRoute,
+    AuthenticatedWorkManagementOrganizationsRoute:
+      AuthenticatedWorkManagementOrganizationsRoute,
+    AuthenticatedWorkManagementProjectsRoute:
+      AuthenticatedWorkManagementProjectsRoute,
+    AuthenticatedWorkManagementTeamsRoute:
+      AuthenticatedWorkManagementTeamsRoute,
+    AuthenticatedWorkManagementIndexRoute:
+      AuthenticatedWorkManagementIndexRoute,
+  }
+
+const AuthenticatedWorkManagementRouteRouteWithChildren =
+  AuthenticatedWorkManagementRouteRoute._addFileChildren(
+    AuthenticatedWorkManagementRouteRouteChildren,
+  )
+
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
+  AuthenticatedWorkManagementRouteRoute: typeof AuthenticatedWorkManagementRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
@@ -388,6 +506,8 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
+  AuthenticatedWorkManagementRouteRoute:
+    AuthenticatedWorkManagementRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
@@ -402,6 +522,7 @@ const AuthenticatedRouteRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof AuthenticatedRouteRouteWithChildren
   '/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/work-management': typeof AuthenticatedWorkManagementRouteRouteWithChildren
   '/forgot-password': typeof authForgotPasswordRoute
   '/otp': typeof authOtpRoute
   '/sign-in': typeof authSignInRoute
@@ -417,12 +538,17 @@ export interface FileRoutesByFullPath {
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/work-management/departments': typeof AuthenticatedWorkManagementDepartmentsRoute
+  '/work-management/organizations': typeof AuthenticatedWorkManagementOrganizationsRoute
+  '/work-management/projects': typeof AuthenticatedWorkManagementProjectsRoute
+  '/work-management/teams': typeof AuthenticatedWorkManagementTeamsRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/work-management/': typeof AuthenticatedWorkManagementIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -441,18 +567,24 @@ export interface FileRoutesByTo {
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/work-management/departments': typeof AuthenticatedWorkManagementDepartmentsRoute
+  '/work-management/organizations': typeof AuthenticatedWorkManagementOrganizationsRoute
+  '/work-management/projects': typeof AuthenticatedWorkManagementProjectsRoute
+  '/work-management/teams': typeof AuthenticatedWorkManagementTeamsRoute
   '/apps': typeof AuthenticatedAppsIndexRoute
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/work-management': typeof AuthenticatedWorkManagementIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/settings': typeof AuthenticatedSettingsRouteRouteWithChildren
+  '/_authenticated/work-management': typeof AuthenticatedWorkManagementRouteRouteWithChildren
   '/(auth)/forgot-password': typeof authForgotPasswordRoute
   '/(auth)/otp': typeof authOtpRoute
   '/(auth)/sign-in': typeof authSignInRoute
@@ -468,12 +600,17 @@ export interface FileRoutesById {
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/_authenticated/work-management/departments': typeof AuthenticatedWorkManagementDepartmentsRoute
+  '/_authenticated/work-management/organizations': typeof AuthenticatedWorkManagementOrganizationsRoute
+  '/_authenticated/work-management/projects': typeof AuthenticatedWorkManagementProjectsRoute
+  '/_authenticated/work-management/teams': typeof AuthenticatedWorkManagementTeamsRoute
   '/_authenticated/apps/': typeof AuthenticatedAppsIndexRoute
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/work-management/': typeof AuthenticatedWorkManagementIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -481,6 +618,7 @@ export interface FileRouteTypes {
   fullPaths:
     | ''
     | '/settings'
+    | '/work-management'
     | '/forgot-password'
     | '/otp'
     | '/sign-in'
@@ -496,12 +634,17 @@ export interface FileRouteTypes {
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
+    | '/work-management/departments'
+    | '/work-management/organizations'
+    | '/work-management/projects'
+    | '/work-management/teams'
     | '/apps'
     | '/chats'
     | '/help-center'
     | '/settings/'
     | '/tasks'
     | '/users'
+    | '/work-management/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/forgot-password'
@@ -519,16 +662,22 @@ export interface FileRouteTypes {
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
+    | '/work-management/departments'
+    | '/work-management/organizations'
+    | '/work-management/projects'
+    | '/work-management/teams'
     | '/apps'
     | '/chats'
     | '/help-center'
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/work-management'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_authenticated/settings'
+    | '/_authenticated/work-management'
     | '/(auth)/forgot-password'
     | '/(auth)/otp'
     | '/(auth)/sign-in'
@@ -544,12 +693,17 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
+    | '/_authenticated/work-management/departments'
+    | '/_authenticated/work-management/organizations'
+    | '/_authenticated/work-management/projects'
+    | '/_authenticated/work-management/teams'
     | '/_authenticated/apps/'
     | '/_authenticated/chats/'
     | '/_authenticated/help-center/'
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/work-management/'
   fileRoutesById: FileRoutesById
 }
 
@@ -608,6 +762,7 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/route.tsx",
       "children": [
         "/_authenticated/settings",
+        "/_authenticated/work-management",
         "/_authenticated/",
         "/_authenticated/apps/",
         "/_authenticated/chats/",
@@ -625,6 +780,17 @@ export const routeTree = rootRoute
         "/_authenticated/settings/display",
         "/_authenticated/settings/notifications",
         "/_authenticated/settings/"
+      ]
+    },
+    "/_authenticated/work-management": {
+      "filePath": "_authenticated/work-management/route.tsx",
+      "parent": "/_authenticated",
+      "children": [
+        "/_authenticated/work-management/departments",
+        "/_authenticated/work-management/organizations",
+        "/_authenticated/work-management/projects",
+        "/_authenticated/work-management/teams",
+        "/_authenticated/work-management/"
       ]
     },
     "/(auth)/forgot-password": {
@@ -677,6 +843,22 @@ export const routeTree = rootRoute
       "filePath": "_authenticated/settings/notifications.tsx",
       "parent": "/_authenticated/settings"
     },
+    "/_authenticated/work-management/departments": {
+      "filePath": "_authenticated/work-management/departments.tsx",
+      "parent": "/_authenticated/work-management"
+    },
+    "/_authenticated/work-management/organizations": {
+      "filePath": "_authenticated/work-management/organizations.tsx",
+      "parent": "/_authenticated/work-management"
+    },
+    "/_authenticated/work-management/projects": {
+      "filePath": "_authenticated/work-management/projects.tsx",
+      "parent": "/_authenticated/work-management"
+    },
+    "/_authenticated/work-management/teams": {
+      "filePath": "_authenticated/work-management/teams.tsx",
+      "parent": "/_authenticated/work-management"
+    },
     "/_authenticated/apps/": {
       "filePath": "_authenticated/apps/index.tsx",
       "parent": "/_authenticated"
@@ -700,6 +882,10 @@ export const routeTree = rootRoute
     "/_authenticated/users/": {
       "filePath": "_authenticated/users/index.tsx",
       "parent": "/_authenticated"
+    },
+    "/_authenticated/work-management/": {
+      "filePath": "_authenticated/work-management/index.tsx",
+      "parent": "/_authenticated/work-management"
     }
   }
 }
